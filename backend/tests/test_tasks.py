@@ -90,6 +90,11 @@ def test_get_task_not_found(client):
     assert res.status_code == 404
 
 
+def test_get_task_invalid_id_format(client):
+    res = client.get("/api/tasks/abc")
+    assert res.status_code == 400
+
+
 # ── PUT /api/tasks/{id} ───────────────────────────────────────
 def test_update_task_success(client):
     create_res = client.post("/api/tasks", json={"title": "원래 제목"})
@@ -134,6 +139,11 @@ def test_delete_task_success(client):
 def test_delete_task_not_found(client):
     res = client.delete("/api/tasks/9999")
     assert res.status_code == 404
+
+
+def test_delete_task_invalid_id_format(client):
+    res = client.delete("/api/tasks/abc")
+    assert res.status_code == 400
 
 
 def test_delete_task_gone_after_delete(client):
