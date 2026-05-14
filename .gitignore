@@ -30,6 +30,9 @@ env/
 .DS_Store
 Thumbs.db
 
+# 가상환경
+.venv/
+
 # 로그
 *.log
 logs/
