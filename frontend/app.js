@@ -81,7 +81,10 @@ function TaskCard(task) {
         ${StatusBadge(task.status)}
         <div class="min-w-0">
           <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">${escapeHtml(task.title)}</p>
-          ${task.due_at ? `<div class="mt-0.5">${DueLabel(task.due_at)}</div>` : ''}
+          <div class="mt-0.5 flex items-center gap-2 flex-wrap">
+            ${task.due_at ? DueLabel(task.due_at) : ''}
+            <span class="text-xs text-gray-300 dark:text-gray-600">${FormatRelativeTime(task.created_at)}</span>
+          </div>
         </div>
       </div>
       <button class="delete-btn flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center
@@ -144,6 +147,9 @@ function openModal(task) {
   document.getElementById('modalStatus').value      = task.status;
   document.getElementById('modalDue').value         = task.due_at ? toLocalDatetimeInput(task.due_at) : '';
   document.getElementById('modalError').classList.add('hidden');
+  document.getElementById('modalMeta').textContent =
+    `생성 ${FormatRelativeTime(task.created_at)}` +
+    (task.updated_at !== task.created_at ? `  ·  수정 ${FormatRelativeTime(task.updated_at)}` : '');
   modal.dataset.taskId = task.id;
   modal.classList.remove('hidden');
   document.getElementById('modalTitle').focus();
@@ -182,6 +188,24 @@ function escapeHtml(str) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+// ISO 문자열 → 상대 시간 (예: "5분 전", "어제", "2026. 5. 14.")
+const _rtf = new Intl.RelativeTimeFormat('ko', { numeric: 'auto' });
+const _dtf = new Intl.DateTimeFormat('ko', { year: 'numeric', month: 'short', day: 'numeric' });
+
+function FormatRelativeTime(isoStr) {
+  if (!isoStr) return '';
+  const diffSec  = Math.round((new Date(isoStr) - Date.now()) / 1000);
+  const diffMin  = Math.round(diffSec / 60);
+  const diffHour = Math.round(diffMin / 60);
+  const diffDay  = Math.round(diffHour / 24);
+
+  if (Math.abs(diffSec)  <  60) return _rtf.format(diffSec,  'second');
+  if (Math.abs(diffMin)  <  60) return _rtf.format(diffMin,  'minute');
+  if (Math.abs(diffHour) <  24) return _rtf.format(diffHour, 'hour');
+  if (Math.abs(diffDay)  <  30) return _rtf.format(diffDay,  'day');
+  return _dtf.format(new Date(isoStr));
 }
 
 // UTC ISO 문자열 → datetime-local 입력값 (로컬 시각)
