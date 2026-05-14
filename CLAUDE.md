@@ -14,12 +14,12 @@
 
 모든 작업을 시작하기 전, 아래 6개 문서를 **반드시 순서대로** 읽는다.
 
-1. `docs/01-project-overview.md` — 프로젝트 목적 및 전체 구조
-2. `docs/02-tech-stack.md` — 기술 스택 및 버전 정보
-3. `docs/03-architecture.md` — 시스템 아키텍처 및 레이어 구조
-4. `docs/04-api-spec.md` — API 명세 및 엔드포인트 규칙
-5. `docs/05-db-schema.md` — 데이터베이스 스키마 및 관계
-6. `docs/06-conventions.md` — 코딩 컨벤션 및 네이밍 규칙
+1. `docs/00-overview.md` — 문서 지도 및 전체 구조
+2. `docs/01-product.md` — 핵심 기능, 사용자 유형, 비기능 요구사항
+3. `docs/02-specs.md` — 기술 스택, API 설계, DB 스키마
+4. `docs/03-design.md` — 아키텍처, 폴더 구조, 데이터 흐름
+5. `docs/04-tasks.md` — 구현 단계, 우선순위, 완료 기준
+6. `docs/05-conventions.md` — 코딩 컨벤션, 네이밍 규칙, Git 전략
 
 ---
 
